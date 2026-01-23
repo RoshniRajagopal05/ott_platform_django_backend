@@ -1,0 +1,46 @@
+
+
+{% extends "layout/app-layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">🎬 Movie Details</h2>
+    
+    <div class="card shadow p-4">
+        <!-- Title -->
+        <div class="mb-3">
+            <h5><strong>Title:</strong></h5>
+            <p class="form-control-plaintext">{{ movie.title }}</p>  <!-- Dynamic title -->
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <h5><strong>Description:</strong></h5>
+            <p class="form-control-plaintext">{{ movie.description }}</p> <!-- Dynamic description -->
+        </div>
+
+        <!-- Video Link -->
+        <div class="mb-3">
+            <h5><strong>Trailer:</strong></h5>
+            <video controls width="400" height="300" autoplay muted>
+                <source src="{{ movie.video.url }}" type="video/mp4">  <!-- Dynamic video -->
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Thumbnail -->
+        <div class="mb-3">
+            <h5><strong>Thumbnail:</strong></h5>
+            <img src="{{ movie.thumbnail.url }}" alt="Thumbnail" class="img-fluid rounded shadow-sm" style="max-width: 300px;">  <!-- Dynamic thumbnail -->
+        </div>
+
+        <!-- Back Button -->
+        <div class="mt-4">
+            <a href="{% url 'movielist' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i>Back to Movie List
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

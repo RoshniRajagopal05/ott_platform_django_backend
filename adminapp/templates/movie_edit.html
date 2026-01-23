@@ -1,0 +1,39 @@
+{% extends 'layout/app-layout.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center text-white mb-4">Edit Movie</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="bg-dark p-4 rounded shadow">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="title" class="form-label text-white">Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter movie title">
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label text-white">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter movie description">{{ movie.description }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="video" class="form-label text-white">Upload Video Link</label>
+            <input type="url" class="form-control" id="video" name="video" placeholder="Enter video link">
+        </div>
+
+        <div class="mb-3">
+            <label for="thumbnail" class="form-label text-white">Upload Thumbnail Image</label>
+            <input type="file" class="form-control" id="thumbnail" name="thumbnail">
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Save Edited Movie
+            </button>
+            <button type="reset" class="btn btn-secondary">
+                <i class="fas fa-eraser"></i> Clear Fields
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

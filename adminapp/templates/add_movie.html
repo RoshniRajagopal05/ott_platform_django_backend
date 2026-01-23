@@ -1,0 +1,49 @@
+<!-- add_movie.html -->
+{% extends 'layout/app-layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4 text-white">Add Movie</h2>
+
+  <div class="card p-4 bg-dark text-white shadow-lg">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      <div class="mb-3">
+        <label for="title" class="form-label">Movie Title</label>
+        <input type="text" class="form-control" name="title" placeholder="Enter movie title" required>
+      </div>
+
+      
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" name="description" rows="4" placeholder="Enter movie description" required></textarea>
+      </div>
+
+      
+      <div class="mb-3">
+        <label for="video" class="form-label">Upload Video</label>
+        <input type="file" class="form-control" name="video" accept="video/*" required>
+      </div>
+
+   
+      <div class="mb-4">
+        <label for="thumbnail" class="form-label">Upload Thumbnail</label>
+        <input type="file" class="form-control" name="thumbnail" accept="image/*" required>
+      </div>
+
+      
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-danger">
+          <i class="fas fa-check-circle me-1"></i> Submit
+        </button>
+        <a href="{% url 'movielist' %}" class="btn btn-secondary">
+          <i class="fas fa-times-circle me-1"></i> Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
