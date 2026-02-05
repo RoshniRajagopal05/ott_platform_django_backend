@@ -57,7 +57,14 @@ def login(request):
 
    
     token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key}, status=HTTP_200_OK)
+    return Response({
+        'token': token.key,
+        'user': {
+            'id': user.id,
+            'email': user.email,
+            'name': user.name
+        }
+    }, status=HTTP_200_OK)
 
 
 
@@ -72,7 +79,7 @@ def movie_list(request):
 
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def watchlist_view(request):
     if request.method == 'POST':
@@ -88,6 +95,17 @@ def watchlist_view(request):
         watchlist = Watchlist.objects.filter(user=request.user)
         serializer = WatchlistSerializer(watchlist, many=True)
         return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        watchlist_id = request.data.get('id')
+        if not watchlist_id:
+            return Response({'error': 'Watchlist ID is required'}, status=HTTP_400_BAD_REQUEST)
+        try:
+            watchlist_item = Watchlist.objects.get(id=watchlist_id, user=request.user)
+            watchlist_item.delete()
+            return Response({'message': 'Removed from watchlist'}, status=HTTP_204_NO_CONTENT)
+        except Watchlist.DoesNotExist:
+            return Response({'error': 'Watchlist item not found'}, status=HTTP_404_NOT_FOUND)
 
 
 

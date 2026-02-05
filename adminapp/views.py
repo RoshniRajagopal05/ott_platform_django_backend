@@ -57,13 +57,16 @@ def add_movie(request):
         description = request.POST.get('description')
         video = request.FILES.get('video')
         thumbnail = request.FILES.get('thumbnail')
+        trailer=request.FILES.get("trailer")
+
 
         
         Movie.objects.create(
             title=title,
             description=description,
             video=video,
-            thumbnail=thumbnail
+            thumbnail=thumbnail,
+            trailer=trailer
         )
 
         messages.success(request, "Movie added successfully.")

@@ -37,7 +37,15 @@ class Movie(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     thumbnail = models.ImageField(upload_to='images/')
+    
+    trailer = models.FileField(
+        upload_to='trailers/',
+        null=True,
+        blank=True
+    )
+
     video = models.FileField(upload_to='videos/')
+
 
     
 class WatchHistory(models.Model):
