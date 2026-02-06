@@ -12,6 +12,7 @@ from rest_framework.status import HTTP_200_OK,  HTTP_400_BAD_REQUEST, HTTP_404_N
 from rest_framework.authtoken.models import Token
 from .serializers import  MovieSerializer,WatchlistSerializer,WatchHistorySerializer
 from .models import Movie,Watchlist,WatchHistory
+from django.utils import timezone
 
 
 
@@ -162,11 +163,27 @@ def change_password(request):
         return Response({'error': 'Current password is incorrect.'}, status=HTTP_400_BAD_REQUEST)
 
     user.set_password(new_password)
+    user.last_password_change = timezone.now()
     user.save()
 
     return Response({'success': 'Password changed successfully.'}, status=HTTP_200_OK)
 
 
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_detail(request):
+    user = request.user
+    return Response({
+        'id': user.id,
+        'email': user.email,
+        'name': user.name,
+        'is_active': user.is_active,
+        'is_superuser': user.is_superuser,
+        'date_joined': user.date_joined,
+        'last_password_change': user.last_password_change
+    }, status=HTTP_200_OK)
 
 
 @api_view(['GET'])

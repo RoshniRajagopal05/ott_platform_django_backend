@@ -2,6 +2,7 @@
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.utils import timezone
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -26,6 +27,8 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
+    last_password_change = models.DateTimeField(null=True, blank=True)
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -45,6 +48,14 @@ class Movie(models.Model):
     )
 
     video = models.FileField(upload_to='videos/')
+    
+    # New fields for enhanced details
+    genre = models.CharField(max_length=100, default='Unknown', blank=True)
+    rating = models.DecimalField(max_digits=3, decimal_places=1, default=0, blank=True)
+    duration = models.IntegerField(default=0, blank=True)  # Duration in minutes
+    release_year = models.IntegerField(default=2024, blank=True)
+    director = models.CharField(max_length=100, default='Unknown', blank=True)
+    cast = models.TextField(default='', blank=True)  # Comma-separated cast names
 
 
     
